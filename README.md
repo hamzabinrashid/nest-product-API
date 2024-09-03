@@ -141,22 +141,44 @@ The API will be accessible at `http://localhost:3000`.
   }
   ```
 
-### Get All Products
-- **URL**: `/product`
+### Get All Products (Paginated)
+- **URL**: `/products`
 - **Method**: `GET`
-- **Description**: Retrieve a list of all products.
-- **Response**:
-  ```json
-  [
+- **Description**: Retrieves a paginated list of all products. The response will include the product data, the total number of products, and a link to the next page if available.
+  
+#### Query Parameters:
+| Parameter | Type   | Required | Default | Description                                    |
+|-----------|--------|----------|---------|------------------------------------------------|
+| `page`    | Number | No       | 1       | The page number to retrieve.                   |
+| `limit`   | Number | No       | 10      | The number of products to retrieve per page.   |
+
+#### Example Request:
+GET /products?page=2&limit=5
+
+#### Example Response (With `nextLink`):
+```json
+{
+  "data": [
     {
-      "id": "<uuid>",
-      "name": "Product Name",
-      "description": "Product Description",
+      "id": "05e8cb2f-7cbc-466e-8486-ea60c0aa753c",
+      "name": "uniqueProduct105",
+      "description": "Test Product",
       "price": 100,
-      "category": "Electronics"
+      "category": "Category1"
+    },
+    {
+      "id": "6b96b3fb-dc5f-46e7-9e10-87f4bb057509",
+      "name": "uniqueProduct106",
+      "description": "Test Product 2",
+      "price": 120,
+      "category": "Category2"
     }
-  ]
-  ```
+  ],
+  "total": 10,
+  "nextLink": "http:127.0.0.1/products?page=3&limit=5"
+}
+```
+
 
 ### Get a Product by ID
 - **URL**: `/product/:id`
