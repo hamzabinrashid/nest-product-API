@@ -1,0 +1,39 @@
+npm i -g @nestjs/cli            nestjs cli
+nest new appname                starting up a project
+npm run     npm run start       npm run start:dev for realtime changes
+docker-compose                  file for service container. here for posgres 
+docker-compose up/down          for starting shutting container
+npm install prisma -D           install prisma as a project depedncy -D 
+npx prisma init                 initialize
+DATABASE_URL="postgres://username:Password@localhost:5444/recipe"  DB connection in .env
+npx prisma migrate dev --name init  prisma migration
+
+
+
+seed.ts ko oackage.json mn bhi dalna huga "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  } ese
+
+npx prisma db seed
+npx nest generate module modulename
+npx nest generate service servicename
+
+
+export class PrismaService extends PrismaClient     This service is a wrapper around the Prisma Client, making it easy to send queries to the database. It's also a NestJS provider, which means it can be injected into other modules.
+
+exports: [PrismaService] in prismamoduleto use prisma client
+
+
+npm install --save @nestjs/swagger swagger-ui-express   swagger
+npx nest generate resource product to generate endpoints 
+
+
+
+
+
+{"id":"d0e07ce3-3f52-49f2-b724-d7da67bb16c7",
+ "name":"fries",
+ "description":"crispy spicy full of flavours, finger lickin good",
+ "price":3,
+ "Category":"snacks"
+}
