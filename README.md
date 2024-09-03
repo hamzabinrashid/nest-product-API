@@ -1,85 +1,263 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 📦 Product Management API with Prisma
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This project is a REST API built using [NestJS](https://nestjs.com/) and [Prisma](https://www.prisma.io/). It allows users to manage a list of products with full CRUD operations (Create, Read, Update, Delete), along with additional search functionality, and data persistence with PostgreSQL.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Table of Contents
+- [Features](#features)
+- [Project Architecture](#project-architecture)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Environment Configuration](#environment-configuration)
+- [Database Setup with Prisma](#database-setup-with-prisma)
+- [Running the Application](#running-the-application)
+- [API Endpoints](#api-endpoints)
+  - [Create a Product](#create-a-product)
+  - [Get All Products](#get-all-products)
+  - [Get a Product by ID](#get-a-product-by-id)
+  - [Update a Product](#update-a-product)
+  - [Search Products](#search-products)
+  - [Delete a Product](#delete-a-product)
+- [Validation](#validation)
+- [Error Handling](#error-handling)
+- [Testing](#testing)
+- [Performance & Scalability](#performance--scalability)
+- [Security Considerations](#security-considerations)
+- [Future Enhancements](#future-enhancements)
+- [License](#license)
 
-## Description
+## Features
+- Full CRUD (Create, Read, Update, Delete) for products.
+- Search functionality for filtering products based on keywords.
+- Input validation using Data Transfer Objects (DTOs) and Pipes.
+- Exception handling for better error management.
+- Pagination support for product listing.
+- Structured and scalable codebase using NestJS modules, controllers, services.
+- Prisma ORM for database interactions.
+- PostgreSQL as the database.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
+## Project Architecture
+```
+src/
+│
+├── product/
+│   ├── dto/                # Data Transfer Objects for validation
+│   ├── entities/           # Product entity class
+│   ├── product.controller.ts # Handles HTTP requests and responses
+│   ├── product.service.ts    # Business logic and product management
+│   └── product.module.ts     # NestJS module to bundle controller and service
+├── prisma/
+│   ├── prisma.service.ts    # Encapsulates Prisma client and database connection
+│   ├── prisma.module.ts     # Prisma module
+├── app.module.ts           # Root module
+└── main.ts                 # Application entry point
 ```
 
-## Compile and run the project
+## Prerequisites
+- [Node.js](https://nodejs.org/) v14 or higher
+- [NestJS CLI](https://docs.nestjs.com/cli/overview)
+- A package manager like `npm` or `yarn`
+- [PostgreSQL](https://www.postgresql.org/) or another supported database
+- [Prisma](https://www.prisma.io/)
+
+## Installation
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/hamzabinrashid/nest-product-api.git
+   cd nest-product-api
+   ```
+
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+## Environment Configuration
+Create a `.env` file at the root of the project to configure environment-specific variables:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+PORT=3000
+DATABASE_URL=postgresql://<username>:<password>@localhost:5432/<database_name>
+NODE_ENV=development
 ```
 
-## Run tests
+Replace `<username>`, `<password>`, and `<database_name>` with your actual PostgreSQL credentials.
+
+## Database Setup with Prisma
+
+This project uses Prisma as the ORM for interacting with a PostgreSQL database. Make sure to set up your database connection string in the `.env` file.
+
+1. **Install PostgreSQL** and create a new database:
+   ```bash
+   createdb product
+   ```
+
+2. **Update your `.env` file** with the correct `DATABASE_URL` for PostgreSQL.
+
+3. **Run the Prisma migrations**:
+   ```bash
+   npx prisma migrate dev --name init
+   ```
+
+4. **Generate the Prisma Client**:
+   ```bash
+   npx prisma generate
+   ```
+
+## Running the Application
+
+To start the server in development mode, run:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run start:dev
 ```
 
-## Resources
+The API will be accessible at `http://localhost:3000`.
 
-Check out a few resources that may come in handy when working with NestJS:
+## API Endpoints
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Create a Product
+- **URL**: `/product`
+- **Method**: `POST`
+- **Description**: Create a new product.
+- **Request Body**:
+  ```json
+  {
+    "name": "Product Name",
+    "description": "Product Description",
+    "price": 100,
+    "category": "Electronics"
+  }
+  ```
+- **Response**: 
+  ```json
+  {
+    "id": "<uuid>",
+    "name": "Product Name",
+    "description": "Product Description",
+    "price": 100,
+    "category": "Electronics"
+  }
+  ```
 
-## Support
+### Get All Products
+- **URL**: `/product`
+- **Method**: `GET`
+- **Description**: Retrieve a list of all products.
+- **Response**:
+  ```json
+  [
+    {
+      "id": "<uuid>",
+      "name": "Product Name",
+      "description": "Product Description",
+      "price": 100,
+      "category": "Electronics"
+    }
+  ]
+  ```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Get a Product by ID
+- **URL**: `/product/:id`
+- **Method**: `GET`
+- **Description**: Get a product by its unique ID.
+- **Response**:
+  ```json
+  {
+    "id": "<uuid>",
+    "name": "Product Name",
+    "description": "Product Description",
+    "price": 100,
+    "category": "Electronics"
+  }
+  ```
 
-## Stay in touch
+### Update a Product
+- **URL**: `/product/:id`
+- **Method**: `PATCH`
+- **Description**: Update an existing product by its ID.
+- **Request Body** (Partial or Full):
+  ```json
+  {
+    "name": "Updated Product Name",
+    "price": 120
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "id": "<uuid>",
+    "name": "Updated Product Name",
+    "description": "Product Description",
+    "price": 120,
+    "category": "Electronics"
+  }
+  ```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Search Products
+- **URL**: `/product/search?q=keyword`
+- **Method**: `GET`
+- **Description**: Search products by a keyword in their name only.
+- **Response**:
+  ```json
+  [
+    {
+      "id": "<uuid>",
+      "name": "Keyword Match Product",
+      "description": "A product with keyword",
+      "price": 150,
+      "category": "Electronics"
+    }
+  ]
+  ```
+
+### Delete a Product
+- **URL**: `/product/:id`
+- **Method**: `DELETE`
+- **Description**: Delete a product by its ID.
+- **Response**: `204 No Content`
+
+## Validation
+Validation is applied using `class-validator` in DTOs. If the request body doesn't conform to the schema, a `400 Bad Request` error is returned with the validation messages.
+
+### Example Validation Error Response
+```json
+{
+  "statusCode": 400,
+  "message": ["name must be a string", "price must be a number"],
+  "error": "Bad Request"
+}
+```
+
+## Error Handling
+Proper exception handling is used throughout the service:
+- **404 Not Found**: When a product is not found.
+- **400 Bad Request**: When validation fails.
+- **500 Internal Server Error**: For unexpected errors.
+
+## Testing
+To run the test suite:
+```bash
+npm run test
+```
+
+### Test Coverage
+- Unit tests are written for the service and controller layers.
+- Test cases check all CRUD operations, validation, and edge cases.
+
+## Performance & Scalability
+- **Pagination**: Implemented in `GET /product` endpoint using query parameters (`page`, `limit`).
+- **Scalability**: Easily scalable by integrating a database and containerization using Docker. Use caching strategies like Redis for frequently accessed data.
+
+## Security Considerations
+- **Input Validation**: Validation for all incoming data to prevent injection attacks.
+- **Error Handling**: Clear error messages without exposing sensitive data.
+- **Authentication**: Can be added using JWT-based authentication via `@nestjs/jwt`.
+
+## Future Enhancements
+- Add authentication and authorization using JWT.
+- Implement sorting and advanced filtering for product listings.
+- Deploy to a cloud provider (AWS, GCP, or Azure) using Docker containers.
 
 ## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is licensed under the MIT License.
