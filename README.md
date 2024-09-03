@@ -55,9 +55,10 @@ src/
 ## Prerequisites
 - [Node.js](https://nodejs.org/) v14 or higher
 - [NestJS CLI](https://docs.nestjs.com/cli/overview)
-- A package manager like `npm` or `yarn`
+- A package manager like `npm`
 - [PostgreSQL](https://www.postgresql.org/) or another supported database
 - [Prisma](https://www.prisma.io/)
+- [Docker](https://docs.docker.com/desktop/install/windows-install/)
 
 ## Installation
 
@@ -87,9 +88,9 @@ Replace `<username>`, `<password>`, and `<database_name>` with your actual Postg
 
 This project uses Prisma as the ORM for interacting with a PostgreSQL database. Make sure to set up your database connection string in the `.env` file.
 
-1. **Install PostgreSQL** and create a new database:
+1. **Initiate Postgres** and create a new database:
    ```bash
-   createdb product
+   docker-compose up -d
    ```
 
 2. **Update your `.env` file** with the correct `DATABASE_URL` for PostgreSQL.
