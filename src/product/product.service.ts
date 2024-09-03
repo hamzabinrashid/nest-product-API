@@ -12,11 +12,25 @@ export class ProductService {
     });
   }
 
-  async findAll(page = 1, limit = 10) {
+  async findAll(page?: number, limit?: number, baseUrl?: string) {
+    if (!page || !limit) {
+      const data = await this.prisma.product.findMany();
+      return { data };
+    }
+    limit=Number(limit)
+    page=Number(page)
     const skip = (page - 1) * limit;
     const data = await this.prisma.product.findMany({ skip, take: limit });
     const total = await this.prisma.product.count();
-    return { data, total };
+
+    const nextPage = (page * limit) < total ? page + 1 : null;
+
+    let nextLink = null;
+    if (nextPage && baseUrl) {
+      nextLink = `${baseUrl}?page=${nextPage}&limit=${limit}`;
+    }
+
+    return { data, total, nextLink };
   }
 
   async findOne(id: string) {

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -13,9 +13,11 @@ export class ProductController {
   }
 
   @Get()
-  findAll(@Query('page') page: number, @Query('limit') limit: number) {
-    return this.productService.findAll(page, limit);
+  findAll(@Query('page') page: number, @Query('limit') limit: number, @Req() req: any) {
+    const baseUrl = `${req.protocol}://${req.get('host')}${req.originalUrl.split('?').shift()}`;
+    return this.productService.findAll(page, limit, baseUrl);
   }
+
   @Get('search')
   async search(@Query('keyword') keyword: string) {
     return this.productService.searchProduct(keyword);
