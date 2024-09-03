@@ -1,11 +1,11 @@
-import { Decimal } from '@prisma/client/runtime/library';
-import { IsString, IsOptional, IsUUID, IsCurrency } from 'class-validator';
+
+import { IsString, IsCurrency, IsNumber } from 'class-validator';
 
 export class CreateProductDto {
     @IsString()
     name: string;
 
-    @IsCurrency()
+    @IsNumber()
     price: number;
 
     @IsString()

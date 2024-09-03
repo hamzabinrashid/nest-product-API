@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsNumber, ValidateIf } from 'class-validator';
 
 export class UpdateProductDto {
   @IsOptional()
@@ -17,6 +17,7 @@ export class UpdateProductDto {
   @IsOptional()
   @IsString()
   category?: string;
+
 
 
 }
