@@ -17,7 +17,7 @@ export class ProductService {
     }
   }
 
-  async findAll(page?: number, limit?: number, baseUrl?: string) {
+  async findAll(page: number=1, limit: number=3, baseUrl?: string) {
     try {
       if (!page || !limit) {
         const data = await this.prisma.product.findMany();
