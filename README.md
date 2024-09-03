@@ -238,12 +238,11 @@ Proper exception handling is used throughout the service:
 ## Testing
 To run the test suite:
 ```bash
-npm run test
+npm run test:e2e
 ```
 
 ### Test Coverage
-- Unit tests are written for the service and controller layers.
-- Test cases check all CRUD operations, validation, and edge cases.
+- CRUS operations and API testing
 
 ## Performance & Scalability
 - **Pagination**: Implemented in `GET /product` endpoint using query parameters (`page`, `limit`).
